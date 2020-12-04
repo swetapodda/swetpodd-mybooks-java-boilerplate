@@ -1,0 +1,184 @@
+# Dockerfile has been added in all micro-services, you need to dockerize all micro-services and add docker-compose.yml file
+version: "3"
+
+services:
+
+# MySQL Server Configuration
+    mysql_db:
+        image: mysql
+        restart: always
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_USER: root
+            MYSQL_ROOT_PASSWORD: password
+            MYSQL_DATABASE: books
+      
+# Mongo DB Configuration
+    mongo_db:
+        image: mongo:latest
+        restart: always
+        ports:
+            - 27017:27017
+        environment:
+             MONGO_INITDB_DATABASE: books
+
+#RABBIT MQ
+    rabbit_mq:
+        image: rabbitmq:3-management 
+        environment:
+             RABBITMQ_DEFAULT_USER: guest
+             RABBITMQ_DEFAULT_PASS: guest
+        ports:
+             - 5672:5672
+             - 15672:15672     
+#ZIPKIN              
+    zipkin:
+        image: openzipkin/zipkin
+        restart: always
+        ports:
+            - 9411:9411
+
+# EUREKA  DISCOVERY SERVICE
+    netflix_eureka:
+        image: netflix_eureka
+        ports:
+          - "8761:8761" 
+        depends_on:
+          - mongo_db
+          - rabbit_mq
+        environment:
+          ZIPKIN_BASE_URL: http://192.168.1.16:9411
+          #MONGO DB SERVER DETAILS
+          
+          MONGO_HOST: mongo_db
+          MONGO_PORT: 27017
+          MONGO_DATABASE: books
+          
+          # RABBIT MQ SERVER DETAILS
+          RABBIT_MQ_HOST: rabbit_mq
+          RABBIT_MQ_PORT: 5672
+          #RABBIT_MQ_USER_NAME: guest
+          #RABBIT_MQ_PASSWORD: guest          
+          HOST_NAME: 192.168.1.16
+    
+# ZUUL API GATEWAY   
+    netflix_zuul_api_gateway:
+        image: netflix_zuul
+        restart: always
+        ports:
+          - "8765:8765"
+        depends_on:
+          - mongo_db
+          - rabbit_mq
+          - netflix_eureka
+        environment:
+            EUREKA_SERVER_ZONE: http://192.168.1.16:8761/eureka
+            ZIPKIN_BASE_URL: http://192.168.1.16:9411
+                        
+            #MONGO DB SERVER DETAILS
+            MONGO_HOST: mongo_db
+            MONGO_PORT: 27017
+            MONGO_DATABASE: books
+            # RABBIT MQ SERVER DETAILS
+            RABBIT_MQ_HOST: rabbit_mq
+            RABBIT_MQ_PORT: 5672
+            #RABBIT_MQ_USER_NAME: guest
+            #RABBIT_MQ_PASSWORD: guest
+            HOST_NAME: 192.168.1.16
+            
+# User Service
+    userservice:
+      
+        image: userservice
+        ports:
+            - "9300:9300"
+        depends_on:
+            - mysql_db
+            - rabbit_mq
+            - netflix_eureka          
+        environment:
+          ZIPKIN_BASE_URL: http://192.168.1.16:9411
+          EUREKA_SERVER_ZONE: http://192.168.1.16:8761/eureka
+          #MYSQL DB SERVER DETAILS
+          MYSQL_HOST: mysql_db
+          MONGO_PORT: 3306
+          MYSQL_DATABASE: books
+          MYSQL_USER: root
+          MYSQL_PASSWORD: root
+          
+          # RABBIT MQ SERVER DETAILS
+          RABBIT_MQ_HOST: rabbit_mq
+          RABBIT_MQ_PORT: 5672
+          RABBIT_MQ_USERNAME: guest
+          RABBIT_MQ_PASSWORD: guest
+          
+          #This is required where Service Running.So Zuul Can able connect to Server. Otherwise tying to local IP
+          HOST_NAME: 192.168.1.16
+       
+   
+# Favourite Service
+    favouriteservice:
+      
+        image: favouriteservice
+        ports:
+          - "9400:9400" 
+        depends_on:
+            - mongo_db
+            - rabbit_mq
+            - netflix_eureka  
+        environment:
+          
+            ZIPKIN_BASE_URL: http://192.168.1.16:9411
+            EUREKA_SERVER_ZONE: http://192.168.1.16:8761/eureka
+          
+            #MONGO DB SERVER DETAILS
+          
+            MONGO_HOST: mongo_db
+            MONGO_PORT: 27017
+            MONGO_DATABASE: books
+          
+            # RABBIT MQ SERVER DETAILS
+            RABBIT_MQ_HOST: rabbit_mq
+            RABBIT_MQ_PORT: 5672
+            RABBIT_MQ_USERNAME: guest
+            RABBIT_MQ_PASSWORD: guest
+          
+            #This is required where Service Running.So Zuul Can able connect to Server. Otherwise tying to local IP
+            HOST_NAME: 192.168.1.16
+   
+# Recomendation Service
+    bookrecommendservice:
+      
+        image: bookrecommendservice
+        ports:
+            - "9500:9500"
+        depends_on:
+            - mongo_db
+            - rabbit_mq
+            - netflix_eureka          
+        environment:
+          
+            ZIPKIN_BASE_URL: http://192.168.1.16:9411
+            EUREKA_SERVER_ZONE: http://192.168.1.16:8761/eureka
+          
+            #MONGO DB SERVER DETAILS
+              
+            MONGO_HOST: mongo_db
+            MONGO_PORT: 27017
+            MONGO_DATABASE: books
+              
+            # RABBIT MQ SERVER DETAILS
+            RABBIT_MQ_HOST: rabbit_mq
+            RABBIT_MQ_PORT: 5672
+            RABBIT_MQ_USERNAME: guest
+            RABBIT_MQ_PASSWORD: guest
+              
+            #This is required where Service Running.So Zuul Can able connect to Server. Otherwise tying to local IP
+            HOST_NAME: 192.168.1.16
+
+# Books UI
+    books_ui:
+        image: books_ui
+        ports:
+            - "80:80" 

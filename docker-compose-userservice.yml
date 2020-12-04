@@ -1,0 +1,34 @@
+# Dockerfile has been added in all micro-services, you need to dockerize all micro-services and add docker-compose.yml file
+version: "3"
+
+services:
+  userservice:
+      
+    image: userservice
+
+    ports:
+      - "9300:9300" 
+  
+    environment:
+      
+      ZIPKIN_BASE_URL: http://192.168.1.16:9411
+      EUREKA_SERVER_ZONE: http://192.168.1.16:8761/eureka
+      
+      #MYSQL DB SERVER DETAILS
+      
+      MYSQL_HOST: 192.168.1.16
+      MONGO_PORT: 3306
+      MYSQL_DATABASE: books
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+      
+      # RABBIT MQ SERVER DETAILS
+      RABBIT_MQ_HOST: 192.168.1.16
+      RABBIT_MQ_PORT: 5672
+      RABBIT_MQ_USERNAME: guest
+      RABBIT_MQ_PASSWORD: guest
+      
+      #This is required where Service Running.So Zuul Can able connect to Server. Otherwise tying to local IP
+      HOST_NAME: 192.168.1.16
+   
+    

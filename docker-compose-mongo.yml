@@ -1,0 +1,18 @@
+# Dockerfile has been added in all micro-services, you need to dockerize all micro-services and add docker-compose.yml file
+version: "3"
+
+services:
+
+# Mongo DB Configuration
+  MongoDBServer:
+    image: mongo:latest
+    container_name: Mongodb # To Avoid Auto Generated Name
+#    network_mode: host
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+ #     MONGO_INITDB_ROOT_USERNAME: admin
+ #     MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: books
+      

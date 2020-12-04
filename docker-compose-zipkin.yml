@@ -1,0 +1,13 @@
+# Dockerfile has been added in all micro-services, you need to dockerize all micro-services and add docker-compose.yml file
+version: "3"
+
+services:
+  zipkin_server:
+    image: openzipkin/zipkin
+    container_name: zipkin_server # To Avoid Auto Generated Name    
+    restart: always
+    ports:
+      - 9411:9411
+    expose:
+      - '9411'
+  

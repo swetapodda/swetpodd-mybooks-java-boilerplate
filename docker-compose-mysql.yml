@@ -1,0 +1,17 @@
+# Dockerfile has been added in all micro-services, you need to dockerize all micro-services and add docker-compose.yml file
+version: "3"
+
+services:
+
+# MySQL Server Configuration
+  MySqlServer:
+    image: mysql
+    container_name: MySql_Server # To Avoid Auto Generated Name
+    #volumes:
+    #  - my-datavolume:var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: books

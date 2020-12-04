@@ -1,0 +1,18 @@
+# Dockerfile has been added in all micro-services, you need to dockerize all micro-services and add docker-compose.yml file
+version: "3"
+
+services:
+
+  RabbitMQ:
+      image: rabbitmq:3-management 
+      container_name: RabbitMQ # To Avoid Auto Generated Name
+#      volumes:
+#          - ./.docker/rabbitmq/etc/:/etc/rabbitmq/
+#          - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/
+#          - ./.docker/rabbitmq/logs/:/var/log/rabbitmq/
+      environment:
+          RABBITMQ_DEFAULT_USER: guest
+          RABBITMQ_DEFAULT_PASS: guest
+      ports:
+          - 5672:5672
+          - 15672:15672

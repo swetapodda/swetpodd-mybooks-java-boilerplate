@@ -1,0 +1,21 @@
+.navbar-brand img{
+	/*height: 20%;*/
+	height: 42px;
+    /*width:20%;*/
+	border-radius: 100%;
+}
+
+.navbar-brand span{
+   	text-transform: uppercase !important;
+	color:  #8d6d3f !important;
+
+	margin-left: 0.5rem;
+	font-weight: bold;
+	font-family: 'Playfair Display', serif;
+	font-size: 25px;
+}
+
+
+.navbar-nav { 
+	margin-left: auto; 
+} 

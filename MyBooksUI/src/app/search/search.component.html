@@ -1,0 +1,26 @@
+<!-- style="margin-top: 20px;"-->
+<br>
+
+<div class="searchContainer ">
+    
+    <div class="container">
+        <h5>Search Book</h5>
+        <form [formGroup]="searchForm" (ngSubmit)="searchBooks()">
+            <div class="row">
+                <div class="col-12">
+                    <div class="input-group">
+
+                        <input class="form-control border-secondary py-2" type="search" formControlName="searchText"
+                            name="searchText" required>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" name="submit" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<app-error></app-error>

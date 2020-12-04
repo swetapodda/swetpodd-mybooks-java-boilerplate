@@ -1,0 +1,9 @@
+
+.card-img-top {    
+    /* height: 12rem;   */
+    height: 20rem;  
+    width : 18rem;
+    object-position: center;
+    object-fit: scale-down;   
+}
+

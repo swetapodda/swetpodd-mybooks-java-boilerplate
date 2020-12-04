@@ -1,0 +1,22 @@
+body {
+	background: #42275a; background: -webkit-linear-gradient(to bottom, #734b6d, #42275a); background: linear-gradient(to bottom, #734b6d, #42275a);
+	height: 100vh;
+	min-height: 100vh;
+}
+
+.bg-gradient-clouds {
+	background: #ECE9E6; background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6); background: linear-gradient(to right, #FFFFFF, #ECE9E6);
+}
+
+
+.bookimage img{
+    /* height: 20%; */
+    /* width:20%; */
+	border-radius: 100%;
+}
+
+.invalid-form{
+	color: red;
+}
+
+

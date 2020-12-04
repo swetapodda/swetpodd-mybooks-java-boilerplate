@@ -1,0 +1,8 @@
+# Dockerfile has been added in all micro-services, you need to dockerize all micro-services and add docker-compose.yml file
+version: "3"
+
+services:
+  books_ui:
+    image: books_ui
+    ports:
+      - "80:80" 
