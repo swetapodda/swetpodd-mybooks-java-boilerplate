@@ -1,0 +1,22 @@
+docker   image build -t bookrecommendationservice ./bookrecommendationservice/.
+docker   image build -t userservice ./userservice/.
+docker   image build -t favouriteservice ./favouriteservice/.
+docker   image build -t netflix_eureka ./netflix-eureka-naming-server/.
+docker   image build -t netflix_zuul ./netflix-zuul-api-gateway-server/.
+
+
+-----------------------
+
+
+docker build -t netflix-eureka-naming-server .
+
+docker run --name=eureka_server netflix-eureka-naming-server
+
+docker container run --name producer -p 8080:8080 -d employee-producer
+
+docker run  -d netflix-eureka-naming-server -p 8761:8761
+
+
+--name=docker-compose
+
+
